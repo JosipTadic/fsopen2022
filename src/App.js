@@ -8,11 +8,20 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [nameFilter, setNameFilter] = useState("");
 
-  useEffect(() => {
+  const setAllPersons = () => {
     personService.getAll().then((returnedPersons) => {
       setPersons(returnedPersons);
     });
+  };
+
+  useEffect(() => {
+    setAllPersons();
   }, []);
+
+  const deletePerson = (id) => {
+    window.confirm(`Delete ${persons[id - 1].name}?`) &&
+      personService.deletePerson(id).then(setAllPersons());
+  };
 
   return (
     <div>
@@ -21,7 +30,11 @@ const App = () => {
       <h3>Add a new</h3>
       <PersonForm persons={persons} setPersons={setPersons} />
       <h3>Numbers</h3>
-      <Persons persons={persons} nameFilter={nameFilter} />
+      <Persons
+        persons={persons}
+        nameFilter={nameFilter}
+        deletePerson={deletePerson}
+      />
     </div>
   );
 };
