@@ -1,9 +1,9 @@
 import React from "react";
 
-const CountryFilter = ({ nameFilter, setNameFilter }) => {
+const PersonFilter = ({ setNameFilter, nameFilter }) => {
   return (
     <div>
-      find countries:
+      filter shown with:
       <input
         onChange={(e) => setNameFilter(e.target.value)}
         value={nameFilter}
@@ -11,4 +11,4 @@ const CountryFilter = ({ nameFilter, setNameFilter }) => {
     </div>
   );
 };
-export default CountryFilter;
+export default PersonFilter;
