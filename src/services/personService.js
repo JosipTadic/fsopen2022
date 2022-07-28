@@ -23,4 +23,12 @@ const deletePerson = (id) => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, create, deletePerson };
+const updatePerson = (id, phoneNumber) => {
+  const request = axios.put(
+    `${process.env.REACT_APP_PHONEBOOK_BASE_URL + personsUrl}/${id}`,
+    phoneNumber
+  );
+  return request.then((response) => response.data);
+};
+
+export default { getAll, create, deletePerson, updatePerson };

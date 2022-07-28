@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import personService from "../services/personService";
 
-const PersonForm = ({ setPersons, persons }) => {
+const PersonForm = ({ setPersons, persons, getAllPersons }) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
-  const addPerson = (e) => {
-    e.preventDefault();
-    if (checkIfExists()) {
-      alert(`${newName} is already added to phonebook`);
-      return;
-    }
+  const checkIfExists = () => {
+    return !persons.some((person) => person.name === newName);
+  };
+
+  const addPerson = () => {
     const newPerson = {
       name: newName,
       number: newNumber,
@@ -24,28 +23,43 @@ const PersonForm = ({ setPersons, persons }) => {
     });
   };
 
-  const checkIfExists = () => {
-    return persons.some((person) => person.name === newName);
+  const updatePerson = () => {
+    const personToUpdate = persons.find((person) => person.name === newName);
+    const updatedPerson = {
+      name: newName,
+      number: newNumber,
+    };
+    window.confirm(
+      `${newName} is already added to phonebook, replace old number with new one?`
+    ) &&
+      personService.updatePerson(personToUpdate.id, updatedPerson).then(() => {
+        getAllPersons();
+        setNewName("");
+        setNewNumber("");
+      });
   };
 
   return (
     <>
-      <form onSubmit={addPerson}>
-        <div>
-          name:{" "}
-          <input onChange={(e) => setNewName(e.target.value)} value={newName} />
-        </div>
-        <div>
-          number:{" "}
-          <input
-            onChange={(e) => setNewNumber(e.target.value)}
-            value={newNumber}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <div>
+        name:{" "}
+        <input onChange={(e) => setNewName(e.target.value)} value={newName} />
+      </div>
+      <div>
+        number:{" "}
+        <input
+          onChange={(e) => setNewNumber(e.target.value)}
+          value={newNumber}
+        />
+      </div>
+      <div>
+        <button
+          onClick={checkIfExists() ? addPerson : updatePerson}
+          type="submit"
+        >
+          add
+        </button>
+      </div>
     </>
   );
 };
