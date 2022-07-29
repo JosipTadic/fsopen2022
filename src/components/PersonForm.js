@@ -1,12 +1,24 @@
 import React, { useState } from "react";
 import personService from "../services/personService";
 
-const PersonForm = ({ setPersons, persons, getAllPersons }) => {
+const PersonForm = ({
+  setPersons,
+  persons,
+  getAllPersons,
+  setSuccessMessage,
+}) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
   const checkIfExists = () => {
     return !persons.some((person) => person.name === newName);
+  };
+
+  const showSuccessMessage = () => {
+    setSuccessMessage(`Added ${newName}`);
+    setTimeout(() => {
+      setSuccessMessage(null);
+    }, 3000);
   };
 
   const addPerson = () => {
@@ -20,6 +32,7 @@ const PersonForm = ({ setPersons, persons, getAllPersons }) => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
       setNewNumber("");
+      showSuccessMessage();
     });
   };
 
