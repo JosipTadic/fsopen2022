@@ -5,7 +5,7 @@ const PersonForm = ({
   setPersons,
   persons,
   getAllPersons,
-  setSuccessMessage,
+  setNetworkMessage,
 }) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
@@ -15,9 +15,11 @@ const PersonForm = ({
   };
 
   const showSuccessMessage = () => {
-    setSuccessMessage(`Added ${newName}`);
-    setTimeout(() => {
-      setSuccessMessage(null);
+    setNetworkMessage({ message: `Added ${newName}`, isError: false });
+
+    const messageTimeout = setTimeout(() => {
+      setNetworkMessage(null);
+      clearTimeout(messageTimeout);
     }, 3000);
   };
 
