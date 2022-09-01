@@ -1,5 +1,6 @@
 import axios from "axios";
-const personsUrl = "/persons";
+const personsUrl = "/api/persons";
+const personUrl = "/api/person";
 
 const getAll = () => {
   const request = axios.get(
@@ -18,14 +19,14 @@ const create = (newPerson) => {
 
 const deletePerson = (id) => {
   const request = axios.delete(
-    `${process.env.REACT_APP_PHONEBOOK_BASE_URL + personsUrl}/${id}`
+    `${process.env.REACT_APP_PHONEBOOK_BASE_URL + personUrl}/${id}`
   );
   return request.then((response) => response.data);
 };
 
 const updatePerson = (id, phoneNumber) => {
   const request = axios.put(
-    `${process.env.REACT_APP_PHONEBOOK_BASE_URL + personsUrl}/${id}`,
+    `${process.env.REACT_APP_PHONEBOOK_BASE_URL + personUrl}/${id}`,
     phoneNumber
   );
   return request.then((response) => response.data);
