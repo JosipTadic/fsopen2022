@@ -28,13 +28,16 @@ const PersonForm = ({
       name: newName,
       number: newNumber,
     };
-
-    personService.create(newPerson).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-      setNewName("");
-      setNewNumber("");
-      showSuccessMessage();
-    });
+    if (checkIfExists()) {
+      personService.create(newPerson).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+        setNewName("");
+        setNewNumber("");
+        showSuccessMessage();
+      });
+    } else {
+      updatePerson();
+    }
   };
 
   const updatePerson = () => {
