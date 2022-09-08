@@ -29,12 +29,20 @@ const PersonForm = ({
       number: newNumber,
     };
     if (checkIfExists()) {
-      personService.create(newPerson).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName("");
-        setNewNumber("");
-        showSuccessMessage();
-      });
+      personService
+        .create(newPerson)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setNewName("");
+          setNewNumber("");
+          showSuccessMessage();
+        })
+        .catch((error) => {
+          setNetworkMessage({
+            message: error.response.data.error,
+            isError: true,
+          });
+        });
     } else {
       updatePerson();
     }
@@ -49,11 +57,19 @@ const PersonForm = ({
     window.confirm(
       `${newName} is already added to phonebook, replace old number with new one?`
     ) &&
-      personService.updatePerson(personToUpdate.id, updatedPerson).then(() => {
-        getAllPersons();
-        setNewName("");
-        setNewNumber("");
-      });
+      personService
+        .updatePerson(personToUpdate.id, updatedPerson)
+        .then(() => {
+          getAllPersons();
+          setNewName("");
+          setNewNumber("");
+        })
+        .catch((error) => {
+          setNetworkMessage({
+            message: error.response.data.error,
+            isError: true,
+          });
+        });
   };
 
   return (
